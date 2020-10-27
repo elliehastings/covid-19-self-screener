@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# CDC COVID-19 Online Self-Checker PDFs
+covid*.pdf
