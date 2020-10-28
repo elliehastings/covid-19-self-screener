@@ -6,7 +6,7 @@ function Button(props) {
   return (
     <button
       className="Button Button-response"
-      onClick={() => props.onClick(props.value)}
+      onClick={() => props.onClick(props.next)}
     >
       {props.text}
     </button>
