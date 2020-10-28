@@ -9,7 +9,7 @@ class Main extends React.Component {
     super(props);
 
     const initialState = {
-      currentStep: "disclaimer",
+      currentStep: "step-disclaimer",
       step: stepsData[0],
     };
     this.state = initialState;
