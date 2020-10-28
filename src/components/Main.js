@@ -17,8 +17,17 @@ class Main extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(value) {
-    console.log(value);
+  handleClick(nextValue) {
+    // Just keeping an eye on things for now... @_o
+    console.log(nextValue);
+    console.log(this.state);
+
+    const nextStep = stepsData.find((step) => step.id === nextValue);
+
+    this.setState({
+      currentStep: nextValue,
+      step: nextStep,
+    });
   }
 
   render() {
