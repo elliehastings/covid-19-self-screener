@@ -31,6 +31,14 @@ class Main extends React.Component {
   }
 
   render() {
+    if (this.state.step.final) {
+      return (
+        <main className="Main">
+          <p>{this.state.step.prompt}</p>
+        </main>
+      );
+    }
+
     const stepOptions = this.state.step.options.map((option) => (
       <Button
         key={option.id}

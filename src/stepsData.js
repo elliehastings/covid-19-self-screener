@@ -6,20 +6,13 @@ const stepsData = [
     options: [
       {
         id: "disclaimer-agree",
-        value: "agree",
         text: "I agree",
         next: "intro-messaging",
-        final: false,
       },
       {
         id: "disclaimer-disagree",
-        value: "disagree",
         text: "I disagree",
-        next: "disclaimer",
-        final: false,
-        result: {
-          text: "Please consent to use the Coronavirus Self- Checker.",
-        },
+        next: "result-disclaimer-disagree",
       },
     ],
   },
@@ -30,12 +23,15 @@ const stepsData = [
     options: [
       {
         id: "intro-messaging-continue",
-        value: "continue",
         text: "Continue",
         next: "this-id-is-tbd",
-        final: false,
       },
     ],
+  },
+  {
+    id: "result-disclaimer-disagree",
+    prompt: "Please consent to use the Coronavirus Self-Checker.",
+    final: true,
   },
 ];
 
