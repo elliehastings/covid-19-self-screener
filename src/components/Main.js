@@ -34,7 +34,7 @@ class Main extends React.Component {
     if (this.state.step.final) {
       return (
         <main className="Main">
-          <p>{this.state.step.prompt}</p>
+          <p className="Main-paragraph">{this.state.step.prompt}</p>
         </main>
       );
     }
@@ -50,7 +50,7 @@ class Main extends React.Component {
 
     return (
       <main className="Main">
-        <p>{this.state.step.prompt}</p>
+        <p className="Main-paragraph">{this.state.step.prompt}</p>
         <div>{stepOptions}</div>
       </main>
     );
