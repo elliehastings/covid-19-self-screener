@@ -35,20 +35,26 @@ const stepsData = [
   },
   {
     id: "step--international-testing",
-    prompt:
-      "I’m going to ask you some questions. I will use your answers to give you advice about the level of medical care you should seek. \nBut first, if you are experiencing a life-threatening emergency, please call 911 immediately. \nIf you are not experiencing a life-threatening emergency, let’s get started.\nDuring the assessment, you can refresh the page if you need to start again.",
+    prompt: "Are you in the United States or a U.S. territory right now?",
     options: [
       {
-        id: "option--intro-messaging-continue",
-        text: "Continue",
-        // NEXT
+        id: "option--international-testing-yes",
+        text: "Yes",
+        // TODO
         next: "step--this-id-is-tbd",
+      },
+      {
+        id: "option--international-testing-no",
+        text: "No",
+        next: "step--international-testing-not-usa",
       },
     ],
   },
+  // The CDC workflow does support an international workflow but we're focused on the US for now
   {
-    id: "step--result-disclaimer-disagree",
-    prompt: "Please consent to use the Coronavirus Self-Checker.",
+    id: "step--international-testing-not-usa",
+    prompt:
+      "I'm sorry, this self-screener only supports the United States at this time.",
     final: true,
   },
 ];

@@ -32,6 +32,7 @@ class Main extends React.Component {
 
   render() {
     if (this.state.step.final) {
+      // There might be a good way to extract this duplication in React?
       return (
         <main className="Main">
           <p className="Main-paragraph">{this.state.step.prompt}</p>
