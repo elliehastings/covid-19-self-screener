@@ -1,11 +1,8 @@
 class Screener {
   constructor() {
     this.testTaker = undefined;
-    this.pronouns = {};
-    this.gender = undefined;
     this.age = undefined;
-    this.ageCategory = undefined;
-    this.riskCategory = undefined;
+    this.gender = undefined;
     this.stepsData = [
       {
         id: "step--disclaimer",
@@ -193,6 +190,40 @@ class Screener {
         ],
       },
     ];
+  }
+
+  get pronouns() {
+    if (this.testTaker === "other") {
+      return {
+        personal: "they",
+        possessive: "their",
+      };
+    } else {
+      return {
+        personal: "you",
+        possessive: "your",
+      };
+    }
+  }
+
+  get ageCategory() {
+    if (["<2", "2-9", "10-12", "13-17"].includes(this.age)) {
+      return "child";
+    } else if (["18-64", "65+"].includes(this.age)) {
+      return "adult";
+    } else {
+      return undefined;
+    }
+  }
+
+  get riskCategory() {
+    if (this.age === "65+") {
+      return "high";
+    } else if (this.age) {
+      return "low";
+    } else {
+      return undefined;
+    }
   }
 }
 
