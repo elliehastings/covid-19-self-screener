@@ -9,17 +9,20 @@ class Main extends React.Component {
     super(props);
 
     this.state = {
-      step: screener.stepsData[0],
+      history: [screener.stepsData[0]],
     };
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(id, nextValue) {
+    const history = this.state.history;
+
     // Just keeping an eye on things for now... @_o
     console.log("Step id: ", id);
     console.log("nextValue: ", nextValue);
     console.log("this.state: ", this.state);
+    console.log("history: ", history);
 
     this.updateDemographicData(id);
 
@@ -28,7 +31,7 @@ class Main extends React.Component {
     const nextStep = screener.stepsData.find((step) => step.id === nextValue);
 
     this.setState({
-      step: nextStep,
+      history: history.concat([nextStep]),
     });
   }
 
@@ -65,17 +68,34 @@ class Main extends React.Component {
   }
 
   render() {
-    if (this.state.step.final) {
+    const history = this.state.history;
+    const currentStep = history[history.length - 1];
+    const previousStep = history[history.length - 2];
+
+    if (currentStep.final) {
       // There might be a good way to extract this duplication in React?
       return (
         <main className="Main">
-          <h1 className="Main-header">{this.state.step.promptHeader}</h1>
-          <p className="Main-paragraph">{this.state.step.getPrompt()}</p>
+          <div className="Main-content">
+            <h1 className="Main-header">{currentStep.promptHeader}</h1>
+            <p className="Main-paragraph">{currentStep.getPrompt()}</p>
+          </div>
+          {!!previousStep && (
+            <div className="Main-previous-next">
+              <Button
+                key={previousStep.id}
+                id={previousStep.id}
+                text={"Previous"}
+                next={previousStep.id}
+                onClick={this.handleClick}
+              />
+            </div>
+          )}
         </main>
       );
     }
 
-    const stepOptions = this.state.step.options.map((option) => (
+    const stepOptions = currentStep.options.map((option) => (
       <Button
         key={option.id}
         id={option.id}
@@ -87,8 +107,21 @@ class Main extends React.Component {
 
     return (
       <main className="Main">
-        <p className="Main-paragraph">{this.state.step.getPrompt()}</p>
-        <div>{stepOptions}</div>
+        <div className="Main-content">
+          <p className="Main-paragraph">{currentStep.getPrompt()}</p>
+          <div>{stepOptions}</div>
+        </div>
+        {!!previousStep && (
+          <div className="Main-previous-next">
+            <Button
+              key={previousStep.id}
+              id={previousStep.id}
+              text={"Previous"}
+              next={previousStep.id}
+              onClick={this.handleClick}
+            />
+          </div>
+        )}
       </main>
     );
   }

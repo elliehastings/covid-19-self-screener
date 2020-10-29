@@ -7,6 +7,14 @@
   justify-content: center;
 }
 
+.Main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .Main-paragraph {
   white-space: pre-wrap;
 }
@@ -14,4 +22,9 @@
 .Main-header {
   font-weight: bold;
   font-size: 2rem;
+}
+
+.Main-previous-next {
+  flex-grow: 1;
+  margin: 10px;
 }
