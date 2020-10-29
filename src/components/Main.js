@@ -39,12 +39,14 @@ class Main extends React.Component {
     // TODO: Refactor this later
     switch (id) {
       case "option--answering-for-self-or-other--self":
+        screener.testTaker = "self";
         screener.pronouns = {
           personal: "you",
           possessive: "your",
         };
         break;
       case "option--answering-for-self-or-other--other":
+        screener.testTaker = "other";
         screener.pronouns = {
           personal: "they",
           possessive: "their",
@@ -52,27 +54,28 @@ class Main extends React.Component {
         break;
       case "option--age--<2":
         screener.age = "<2";
-        screener.ageCategory = "CHILD";
+        screener.ageCategory = "child";
         break;
       case "option--age--2-9":
         screener.age = "2-9";
-        screener.ageCategory = "CHILD";
+        screener.ageCategory = "child";
         break;
       case "option--age--10-12":
         screener.age = "10-12";
-        screener.ageCategory = "CHILD";
+        screener.ageCategory = "child";
         break;
       case "option--age--13-17":
         screener.age = "13-17";
-        screener.ageCategory = "CHILD";
+        screener.ageCategory = "child";
         break;
       case "option--age--18-64":
         screener.age = "18-64";
-        screener.ageCategory = "ADULT";
+        screener.ageCategory = "adult";
         break;
       case "option--age--65+":
         screener.age = "65+";
-        screener.ageCategory = "ADULT";
+        screener.ageCategory = "adult";
+        screener.riskCategory = "high";
         break;
       default:
         break;
@@ -95,7 +98,7 @@ class Main extends React.Component {
         key={option.id}
         id={option.id}
         text={option.text}
-        next={option.next}
+        next={option.getNextId()}
         onClick={this.handleClick}
       />
     ));

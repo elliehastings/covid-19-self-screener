@@ -1,9 +1,11 @@
 class Screener {
   constructor() {
+    this.testTaker = undefined;
     this.pronouns = {};
     this.gender = undefined;
     this.age = undefined;
     this.ageCategory = undefined;
+    this.riskCategory = undefined;
     this.stepsData = [
       {
         id: "step--disclaimer",
@@ -13,12 +15,12 @@ class Screener {
           {
             id: "option--disclaimer--agree",
             text: "I agree",
-            next: "step--intro-messaging",
+            getNextId: () => "step--intro-messaging",
           },
           {
             id: "option--disclaimer--disagree",
             text: "I disagree",
-            next: "step--disclaimer--disagree",
+            getNextId: () => "step--disclaimer--disagree",
           },
         ],
       },
@@ -30,7 +32,7 @@ class Screener {
           {
             id: "option--intro-messaging--continue",
             text: "Continue",
-            next: "step--international-testing",
+            getNextId: () => "step--international-testing",
           },
         ],
       },
@@ -48,12 +50,12 @@ class Screener {
           {
             id: "option--international-testing--yes",
             text: "Yes",
-            next: "step--answering-for-self-or-other",
+            getNextId: () => "step--answering-for-self-or-other",
           },
           {
             id: "option--international-testing--no",
             text: "No",
-            next: "step--international-testing--not-usa",
+            getNextId: () => "step--international-testing--not-usa",
           },
         ],
       },
@@ -72,15 +74,16 @@ class Screener {
           {
             id: "option--answering-for-self-or-other--self",
             text: "Myself",
-            next: "step--age",
+            getNextId: () => "step--age",
           },
           {
             id: "option--answering-for-self-or-other--other",
             text: "Someone else",
-            next: "step--age",
+            getNextId: () => "step--age",
           },
         ],
       },
+      // Age Question
       {
         id: "step--age",
         getPrompt: () => `What is ${this.pronouns.possessive} age?`,
@@ -89,35 +92,54 @@ class Screener {
           {
             id: "option--age--<2",
             text: "Younger than 2 years old",
-            next: "step--age--<2",
+            getNextId: () => "step--age--<2",
           },
           {
             id: "option--age--2-9",
             text: "2-9 years",
-            next: "step--gender",
+            getNextId: () => {
+              if (this.testTaker === "self") {
+                return "step--age--2-9--self";
+              } else {
+                return "step--gender";
+              }
+            },
           },
           {
             id: "option--age--10-12",
             text: "10-12 years",
-            next: "step--gender",
+            getNextId: () => {
+              if (this.testTaker === "self") {
+                return "step--age--10-12--self";
+              } else {
+                return "step--gender";
+              }
+            },
           },
           {
             id: "option--age--13-17",
             text: "13-17 years",
-            next: "step--gender",
+            getNextId: () => {
+              if (this.testTaker === "self") {
+                return "step--age--13-17--self";
+              } else {
+                return "step--gender";
+              }
+            },
           },
           {
             id: "option--age--18-64",
             text: "18-64 years",
-            next: "step--gender",
+            getNextId: () => "step--gender",
           },
           {
             id: "option--age--65+",
             text: "65+ years",
-            next: "step--gender",
+            getNextId: () => "step--gender",
           },
         ],
       },
+      // Age Results
       {
         id: "step--age--<2",
         promptHeader: "Contact a medical provider.",
@@ -126,6 +148,39 @@ class Screener {
         final: true,
       },
       {
+        id: "step--age--2-9--self",
+        promptHeader:
+          "Please ask your parent or guardian to help you complete these questions.",
+        getPrompt: () =>
+          "Please restart the self-checker when you have help from your parent or guardian.",
+        final: true,
+      },
+      {
+        id: "step--age--10-12--self",
+        getPrompt: () =>
+          "Please continue the self-checker when you have help from your parent or guardian.",
+        options: [
+          {
+            id: "option--gender",
+            text: "Continue",
+            getNextId: () => "step--gender",
+          },
+        ],
+      },
+      {
+        id: "step--age--13-17--self",
+        getPrompt: () =>
+          "Ask a parent or guardian to assist you, or if taking by yourself, share these results with your parent/guardian.",
+        options: [
+          {
+            id: "option--gender",
+            text: "Continue",
+            getNextId: () => "step--gender",
+          },
+        ],
+      },
+      // Next questions
+      {
         id: "step--gender",
         getPrompt: () => `What is ${this.pronouns.possessive} gender?`,
         // TODO
@@ -133,7 +188,7 @@ class Screener {
           {
             id: "option--gender--f",
             text: "Female",
-            next: "step--this-id-is-tbd",
+            getNextId: () => "step--this-id-is-tbd",
           },
         ],
       },
