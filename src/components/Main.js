@@ -8,11 +8,9 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
 
-    const initialState = {
-      currentStep: "step-disclaimer",
+    this.state = {
       step: screener.stepsData[0],
     };
-    this.state = initialState;
 
     this.handleClick = this.handleClick.bind(this);
   }
@@ -30,7 +28,6 @@ class Main extends React.Component {
     const nextStep = screener.stepsData.find((step) => step.id === nextValue);
 
     this.setState({
-      currentStep: nextValue,
       step: nextStep,
     });
   }
