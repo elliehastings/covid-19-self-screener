@@ -72,56 +72,46 @@ class Main extends React.Component {
     const currentStep = history[history.length - 1];
     const previousStep = history[history.length - 2];
 
-    if (currentStep.final) {
-      // There might be a good way to extract this duplication in React?
-      return (
-        <main className="Main">
-          <div className="Main-content">
-            <h1 className="Main-header">{currentStep.promptHeader}</h1>
-            <p className="Main-paragraph">{currentStep.getPrompt()}</p>
-          </div>
-          {!!previousStep && (
-            <div className="Main-previous-next">
-              <Button
-                key={previousStep.id}
-                id={previousStep.id}
-                text={"Previous"}
-                next={previousStep.id}
-                onClick={this.handleClick}
-              />
-            </div>
-          )}
-        </main>
+    let previousStepButton;
+    if (previousStep) {
+      previousStepButton = (
+        <div className="Main-previous-next">
+          <Button
+            key={previousStep.id}
+            id={previousStep.id}
+            text={"Previous"}
+            next={previousStep.id}
+            onClick={this.handleClick}
+            buttonStyle={"Button-previous"}
+          />
+        </div>
       );
     }
 
-    const stepOptions = currentStep.options.map((option) => (
-      <Button
-        key={option.id}
-        id={option.id}
-        text={option.text}
-        next={option.getNextId()}
-        onClick={this.handleClick}
-      />
-    ));
+    let stepOptions;
+    if (!currentStep.final) {
+      stepOptions = currentStep.options.map((option) => (
+        <Button
+          key={option.id}
+          id={option.id}
+          text={option.text}
+          next={option.getNextId()}
+          onClick={this.handleClick}
+          buttonStyle={"Button-response"}
+        />
+      ));
+    }
 
     return (
       <main className="Main">
         <div className="Main-content">
+          {!!currentStep.final && (
+            <h1 className="Main-header">{currentStep.promptHeader}</h1>
+          )}
           <p className="Main-paragraph">{currentStep.getPrompt()}</p>
-          <div>{stepOptions}</div>
+          {!currentStep.final && <div>{stepOptions}</div>}
         </div>
-        {!!previousStep && (
-          <div className="Main-previous-next">
-            <Button
-              key={previousStep.id}
-              id={previousStep.id}
-              text={"Previous"}
-              next={previousStep.id}
-              onClick={this.handleClick}
-            />
-          </div>
-        )}
+        {!!previousStep && previousStepButton}
       </main>
     );
   }
