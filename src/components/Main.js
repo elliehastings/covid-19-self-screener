@@ -16,33 +16,14 @@ class Main extends React.Component {
   }
 
   handleClick(stepId, optionId, nextValue) {
-    const history = this.state.history;
-
-    // Just keeping an eye on things for now... @_o
-    console.log("=========== handleClick =============");
-    console.log("stepId: ", stepId);
-    console.log("optionId: ", optionId);
-    console.log("nextValue: ", nextValue);
-    console.log("this.state: ", this.state);
-    console.log("history: ", history);
-
     this.updateDemographicData(optionId);
 
-    console.log("Screener is now: ", screener);
-
+    const history = this.state.history;
     const currentStep = screener.stepsData.find((step) => step.id === stepId);
-
-    console.log("currentStep: ", currentStep);
-
     const nextStep = screener.stepsData.find((step) => step.id === nextValue);
-
     const currentSelection = currentStep.options.find(
       (option) => option.id === optionId
     );
-
-    console.log("currentSelection.text: ", currentSelection.text);
-
-    console.log("nextStep: ", nextStep);
 
     this.setState({
       history: history.concat([
@@ -91,12 +72,7 @@ class Main extends React.Component {
       index,
       history
     ) {
-      console.log("=========== render ============");
-      console.log("currentHistory: ", historyEntry);
-
       const currentStep = historyEntry.step;
-
-      console.log("currentStep: ", currentStep);
 
       let stepOptionsButtons;
       if (!currentStep.final) {
@@ -121,8 +97,6 @@ class Main extends React.Component {
           </p>
         );
       }
-
-      console.log("previousSelection: ", previousSelection);
 
       const isLastSelection = index === history.length - 1;
 
