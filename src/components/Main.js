@@ -119,7 +119,7 @@ class Main extends React.Component {
 
     console.log("previousSelection: ", previousSelection);
 
-    return (
+    const historyElement = (
       <main className="Main">
         <div className="Main-content">
           {!!currentHistory.previousSelection && previousSelection}
@@ -133,6 +133,8 @@ class Main extends React.Component {
         </div>
       </main>
     );
+
+    return historyElement;
   }
 }
 
