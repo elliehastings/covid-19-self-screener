@@ -65,16 +65,6 @@ class Main extends React.Component {
   }
 
   render() {
-    if (this.state.step.final) {
-      // There might be a good way to extract this duplication in React?
-      return (
-        <main className="Main">
-          <h1 className="Main-header">{this.state.step.promptHeader}</h1>
-          <p className="Main-paragraph">{this.state.step.getPrompt()}</p>
-        </main>
-      );
-    }
-
     const stepOptions = this.state.step.options.map((option) => (
       <Button
         key={option.id}
@@ -87,8 +77,11 @@ class Main extends React.Component {
 
     return (
       <main className="Main">
+        {!!this.state.step.final && (
+          <h1 className="Main-header">{this.state.step.promptHeader}</h1>
+        )}
         <p className="Main-paragraph">{this.state.step.getPrompt()}</p>
-        <div>{stepOptions}</div>
+        {!this.state.step.final && <div>{stepOptions}</div>}
       </main>
     );
   }
