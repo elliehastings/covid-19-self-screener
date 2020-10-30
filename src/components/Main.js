@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css";
 import "./Main.css";
 import Button from "./Button";
+import Response from "./Response";
+import Prompt from "./Prompt";
 import screener from "./../stepsData";
 
 class Main extends React.Component {
@@ -89,29 +91,15 @@ class Main extends React.Component {
         ));
       }
 
-      let previousSelection;
-      if (historyEntry.previousSelection) {
-        previousSelection = (
-          <p className="Main-paragraph Main-from-test-taker">
-            {historyEntry.previousSelection}
-          </p>
-        );
-      }
-
+      const previousSelection = historyEntry.previousSelection;
       const isLastSelection = index === history.length - 1;
 
       const historyElement = (
         <main className="Main">
           <div className="Main-content">
-            {!!historyEntry.previousSelection && previousSelection}
-            {!!currentStep.final && (
-              <p className="Main-header Main-from-screener">
-                {currentStep.promptHeader}
-              </p>
-            )}
-            <p className="Main-paragraph Main-from-screener">
-              {currentStep.getPrompt()}
-            </p>
+            {!!previousSelection && <Response text={previousSelection} />}
+            {!!currentStep.final && <Prompt text={currentStep.promptHeader} />}
+            <Prompt text={currentStep.getPrompt()} />
             {!currentStep.final && isLastSelection && (
               <div>{stepOptionsButtons}</div>
             )}
