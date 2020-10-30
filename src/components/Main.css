@@ -2,7 +2,7 @@
   flex: 1 0 auto;
 }
 
-.Main-paragraph {
+.Main-paragraph, .Main-header {
   max-width: 255px;
   word-wrap: break-word;
   margin-bottom: 12px;
@@ -12,14 +12,14 @@
   border-radius:25px;
 }
 
-.Main-paragraph::before {
+.Main-paragraph::before, Main-header::before {
   content:"";
   position:absolute;
   bottom:-2px;
   height:20px;
 }
 
-.Main-paragraph::after {
+.Main-paragraph::after, Main-header::after {
   content:"";
   position:absolute;
   bottom:-2px;

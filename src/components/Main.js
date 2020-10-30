@@ -85,56 +85,71 @@ class Main extends React.Component {
 
   render() {
     const history = this.state.history;
-    const currentHistory = history[history.length - 1];
-    const currentStep = currentHistory.step;
 
-    console.log("============ render =============");
-    console.log("history: ", history);
-    console.log("currentHistory: ", currentHistory);
-    console.log("currentStep: ", currentStep);
+    const historyElements = history.map(function (
+      historyEntry,
+      index,
+      history
+    ) {
+      console.log("=========== render ============");
+      console.log("currentHistory: ", historyEntry);
 
-    let stepOptionsButtons;
-    if (!currentStep.final) {
-      stepOptionsButtons = currentStep.options.map((option) => (
-        <Button
-          key={option.id}
-          optionId={option.id}
-          stepId={currentStep.id}
-          text={option.text}
-          next={option.getNextId()}
-          onClick={this.handleClick}
-          buttonStyle={"Button-response"}
-        />
-      ));
-    }
+      const currentStep = historyEntry.step;
 
-    let previousSelection;
-    if (currentHistory.previousSelection) {
-      previousSelection = (
-        <p className="Main-paragraph Main-from-test-taker">
-          {currentHistory.previousSelection}
-        </p>
-      );
-    }
+      console.log("currentStep: ", currentStep);
 
-    console.log("previousSelection: ", previousSelection);
+      let stepOptionsButtons;
+      if (!currentStep.final) {
+        stepOptionsButtons = currentStep.options.map((option) => (
+          <Button
+            key={option.id}
+            optionId={option.id}
+            stepId={currentStep.id}
+            text={option.text}
+            next={option.getNextId()}
+            onClick={this.handleClick}
+            buttonStyle={"Button-response"}
+          />
+        ));
+      }
 
-    const historyElement = (
-      <main className="Main">
-        <div className="Main-content">
-          {!!currentHistory.previousSelection && previousSelection}
-          {!!currentStep.final && (
-            <p className="Main-header">{currentStep.promptHeader}</p>
-          )}
-          <p className="Main-paragraph Main-from-screener">
-            {currentStep.getPrompt()}
+      let previousSelection;
+      if (historyEntry.previousSelection) {
+        previousSelection = (
+          <p className="Main-paragraph Main-from-test-taker">
+            {historyEntry.previousSelection}
           </p>
-          {!currentStep.final && <div>{stepOptionsButtons}</div>}
-        </div>
-      </main>
-    );
+        );
+      }
 
-    return historyElement;
+      console.log("previousSelection: ", previousSelection);
+
+      const isLastSelection = index === history.length - 1;
+
+      const historyElement = (
+        <main className="Main">
+          <div className="Main-content">
+            {!!historyEntry.previousSelection && previousSelection}
+            {!!currentStep.final && (
+              <p className="Main-header Main-from-screener">
+                {currentStep.promptHeader}
+              </p>
+            )}
+            <p className="Main-paragraph Main-from-screener">
+              {currentStep.getPrompt()}
+            </p>
+            {!currentStep.final && isLastSelection && (
+              <div>{stepOptionsButtons}</div>
+            )}
+          </div>
+        </main>
+      );
+
+      return historyElement;
+    },
+    this);
+
+    return historyElements;
   }
 }
 
