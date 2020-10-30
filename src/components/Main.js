@@ -31,17 +31,22 @@ class Main extends React.Component {
     console.log("Screener is now: ", screener);
 
     const currentStep = screener.stepsData.find((step) => step.id === stepId);
+
+    console.log("currentStep: ", currentStep);
+
     const nextStep = screener.stepsData.find((step) => step.id === nextValue);
+
     const currentSelection = currentStep.options.find(
       (option) => option.id === optionId
     );
 
-    console.log("currentStep: ", currentStep);
+    console.log("currentSelection.text: ", currentSelection.text);
+
     console.log("nextStep: ", nextStep);
 
     this.setState({
       history: history.concat([
-        { step: nextStep, previousSelection: currentSelection.text },
+        { step: nextStep, previousSelection: currentSelection?.text },
       ]),
     });
   }
@@ -79,32 +84,18 @@ class Main extends React.Component {
   }
 
   render() {
-    console.log("============ render =============");
-    console.log("history: ", this.state.history);
-
     const history = this.state.history;
-    const currentStep = history[history.length - 1].step;
-    const previousStep = history[history.length - 2]?.step;
+    const currentHistory = history[history.length - 1];
+    const currentStep = currentHistory.step;
 
-    let previousStepButton;
-    if (previousStep) {
-      previousStepButton = (
-        <div className="Main-previous-next">
-          <Button
-            key={previousStep.id}
-            id={previousStep.id}
-            text={"Previous"}
-            next={previousStep.id}
-            onClick={this.handleClick}
-            buttonStyle={"Button-previous"}
-          />
-        </div>
-      );
-    }
+    console.log("============ render =============");
+    console.log("history: ", history);
+    console.log("currentHistory: ", currentHistory);
+    console.log("currentStep: ", currentStep);
 
-    let stepOptions;
+    let stepOptionsButtons;
     if (!currentStep.final) {
-      stepOptions = currentStep.options.map((option) => (
+      stepOptionsButtons = currentStep.options.map((option) => (
         <Button
           key={option.id}
           optionId={option.id}
@@ -117,16 +108,29 @@ class Main extends React.Component {
       ));
     }
 
+    let previousSelection;
+    if (currentHistory.previousSelection) {
+      previousSelection = (
+        <p className="Main-paragraph Main-from-test-taker">
+          {currentHistory.previousSelection}
+        </p>
+      );
+    }
+
+    console.log("previousSelection: ", previousSelection);
+
     return (
       <main className="Main">
         <div className="Main-content">
+          {!!currentHistory.previousSelection && previousSelection}
           {!!currentStep.final && (
-            <h1 className="Main-header">{currentStep.promptHeader}</h1>
+            <p className="Main-header">{currentStep.promptHeader}</p>
           )}
-          <p className="Main-paragraph">{currentStep.getPrompt()}</p>
-          {!currentStep.final && <div>{stepOptions}</div>}
+          <p className="Main-paragraph Main-from-screener">
+            {currentStep.getPrompt()}
+          </p>
+          {!currentStep.final && <div>{stepOptionsButtons}</div>}
         </div>
-        {!!previousStep && previousStepButton}
       </main>
     );
   }
