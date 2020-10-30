@@ -9,7 +9,7 @@ function Button(props) {
   return (
     <button
       className={buttonClasses}
-      onClick={() => props.onClick(props.id, props.next)}
+      onClick={() => props.onClick(props.stepId, props.optionId, props.next)}
     >
       {props.text}
     </button>

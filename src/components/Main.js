@@ -9,29 +9,40 @@ class Main extends React.Component {
     super(props);
 
     this.state = {
-      history: [screener.stepsData[0]],
+      history: [{ step: screener.stepsData[0], previousSelection: undefined }],
     };
 
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(id, nextValue) {
+  handleClick(stepId, optionId, nextValue) {
     const history = this.state.history;
 
     // Just keeping an eye on things for now... @_o
-    console.log("Step id: ", id);
+    console.log("=========== handleClick =============");
+    console.log("stepId: ", stepId);
+    console.log("optionId: ", optionId);
     console.log("nextValue: ", nextValue);
     console.log("this.state: ", this.state);
     console.log("history: ", history);
 
-    this.updateDemographicData(id);
+    this.updateDemographicData(optionId);
 
     console.log("Screener is now: ", screener);
 
+    const currentStep = screener.stepsData.find((step) => step.id === stepId);
     const nextStep = screener.stepsData.find((step) => step.id === nextValue);
+    const currentSelection = currentStep.options.find(
+      (option) => option.id === optionId
+    );
+
+    console.log("currentStep: ", currentStep);
+    console.log("nextStep: ", nextStep);
 
     this.setState({
-      history: history.concat([nextStep]),
+      history: history.concat([
+        { step: nextStep, previousSelection: currentSelection.text },
+      ]),
     });
   }
 
@@ -68,9 +79,12 @@ class Main extends React.Component {
   }
 
   render() {
+    console.log("============ render =============");
+    console.log("history: ", this.state.history);
+
     const history = this.state.history;
-    const currentStep = history[history.length - 1];
-    const previousStep = history[history.length - 2];
+    const currentStep = history[history.length - 1].step;
+    const previousStep = history[history.length - 2]?.step;
 
     let previousStepButton;
     if (previousStep) {
@@ -93,7 +107,8 @@ class Main extends React.Component {
       stepOptions = currentStep.options.map((option) => (
         <Button
           key={option.id}
-          id={option.id}
+          optionId={option.id}
+          stepId={currentStep.id}
           text={option.text}
           next={option.getNextId()}
           onClick={this.handleClick}
