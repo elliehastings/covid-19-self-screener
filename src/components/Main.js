@@ -69,11 +69,7 @@ class Main extends React.Component {
   render() {
     const history = this.state.history;
 
-    const historyElements = history.map(function (
-      historyEntry,
-      index,
-      history
-    ) {
+    const stepElements = history.map(function (historyEntry, index, history) {
       const currentStep = historyEntry.step;
 
       let stepOptionsButtons;
@@ -94,24 +90,25 @@ class Main extends React.Component {
       const previousSelection = historyEntry.previousSelection;
       const isLastSelection = index === history.length - 1;
 
-      const historyElement = (
-        <main className="Main">
-          <div className="Main-content">
-            {!!previousSelection && <Response text={previousSelection} />}
-            {!!currentStep.final && <Prompt text={currentStep.promptHeader} />}
-            <Prompt text={currentStep.getPrompt()} />
-            {!currentStep.final && isLastSelection && (
-              <div>{stepOptionsButtons}</div>
-            )}
-          </div>
-        </main>
+      const stepElement = (
+        <div>
+          {!!previousSelection && <Response text={previousSelection} />}
+          {!!currentStep.final && <Prompt text={currentStep.promptHeader} />}
+          <Prompt text={currentStep.getPrompt()} />
+          {!currentStep.final && isLastSelection && (
+            <div>{stepOptionsButtons}</div>
+          )}
+        </div>
       );
 
-      return historyElement;
-    },
-    this);
+      return stepElement;
+    }, this);
 
-    return historyElements;
+    return (
+      <main className="Main">
+        <div className="Main-content">{stepElements}</div>
+      </main>
+    );
   }
 }
 
