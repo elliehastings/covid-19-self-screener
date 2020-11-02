@@ -1,34 +1,32 @@
 import React from "react";
-import "./App.css";
-import "./Main.css";
-import Button from "./Button";
-import screener from "./../stepsData";
+import Step from "./Step";
+import screener from "../screener";
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      step: screener.stepsData[0],
+      history: [{ step: screener.stepsData[0], previousSelection: undefined }],
     };
 
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(id, nextValue) {
-    // Just keeping an eye on things for now... @_o
-    console.log("Step id: ", id);
-    console.log("nextValue: ", nextValue);
-    console.log("this.state: ", this.state);
+  handleClick(stepId, optionId, nextValue) {
+    this.updateDemographicData(optionId);
 
-    this.updateDemographicData(id);
-
-    console.log("Screener is now: ", screener);
-
+    const history = this.state.history;
+    const currentStep = screener.stepsData.find((step) => step.id === stepId);
     const nextStep = screener.stepsData.find((step) => step.id === nextValue);
+    const currentSelection = currentStep.options.find(
+      (option) => option.id === optionId
+    );
 
     this.setState({
-      step: nextStep,
+      history: history.concat([
+        { step: nextStep, previousSelection: currentSelection?.text },
+      ]),
     });
   }
 
@@ -59,29 +57,40 @@ class Main extends React.Component {
       case "option--age--65+":
         screener.age = "65+";
         break;
+      case "option--gender--female":
+        screener.gender = "female";
+        break;
+      case "option--gender--male":
+        screener.gender = "male";
+        break;
+      case "option--gender--other":
+        screener.gender = "other";
+        break;
       default:
         break;
     }
   }
 
   render() {
-    const stepOptions = this.state.step.options.map((option) => (
-      <Button
-        key={option.id}
-        id={option.id}
-        text={option.text}
-        next={option.getNextId()}
-        onClick={this.handleClick}
-      />
-    ));
+    const history = this.state.history;
+
+    const steps = history.map(function (historyEntry, index, history) {
+      const historyLength = history.length - 1;
+
+      return (
+        <Step
+          key={index}
+          historyEntry={historyEntry}
+          stepNumber={index}
+          historyLength={historyLength}
+          handleClick={this.handleClick}
+        />
+      );
+    }, this);
 
     return (
-      <main className="Main">
-        {!!this.state.step.final && (
-          <h1 className="Main-header">{this.state.step.promptHeader}</h1>
-        )}
-        <p className="Main-paragraph">{this.state.step.getPrompt()}</p>
-        {!this.state.step.final && <div>{stepOptions}</div>}
+      <main>
+        <div>{steps}</div>
       </main>
     );
   }

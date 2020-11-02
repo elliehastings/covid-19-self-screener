@@ -1,0 +1,23 @@
+.Step-paragraph {
+  max-width: 255px;
+  word-wrap: break-word;
+  margin-bottom: 12px;
+  line-height: 24px;
+  position:relative;
+	padding:10px 20px;
+  border-radius:25px;
+}
+
+.Step-paragraph::before {
+  content:"";
+  position:absolute;
+  bottom:-2px;
+  height:20px;
+}
+
+.Step-paragraph::after {
+  content:"";
+  position:absolute;
+  bottom:-2px;
+  height:20px;
+}

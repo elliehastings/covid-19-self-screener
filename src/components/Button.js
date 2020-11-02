@@ -1,12 +1,10 @@
-import "./App.css";
-import "./Main.css";
 import "./Button.css";
 
 function Button(props) {
   return (
     <button
       className="Button Button-response"
-      onClick={() => props.onClick(props.id, props.next)}
+      onClick={() => props.onClick(props.stepId, props.optionId, props.next)}
     >
       {props.text}
     </button>
