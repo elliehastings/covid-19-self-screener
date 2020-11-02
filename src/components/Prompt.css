@@ -1,6 +1,7 @@
 .Prompt {
 	background:#E5E5EA;
 	color:black;
+  white-space: pre-wrap;
 }
 
 .Prompt::before {

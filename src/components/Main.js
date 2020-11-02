@@ -61,6 +61,15 @@ class Main extends React.Component {
       case "option--age--65+":
         screener.age = "65+";
         break;
+      case "option--gender--female":
+        screener.gender = "female";
+        break;
+      case "option--gender--male":
+        screener.gender = "male";
+        break;
+      case "option--gender--other":
+        screener.gender = "other";
+        break;
       default:
         break;
     }

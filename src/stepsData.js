@@ -176,15 +176,99 @@ class Screener {
           },
         ],
       },
-      // Next questions
       {
         id: "step--gender",
         getPrompt: () => `What is ${this.pronouns.possessive} gender?`,
-        // TODO
         options: [
           {
-            id: "option--gender--f",
+            id: "option--gender--female",
             text: "Female",
+            getNextId: () => `step--emergency-symptoms--${this.ageCategory}`,
+          },
+          {
+            id: "option--gender--male",
+            text: "Male",
+            getNextId: () => `step--emergency-symptoms--${this.ageCategory}`,
+          },
+          {
+            id: "option--gender--other",
+            text: "Other",
+            getNextId: () => `step--emergency-symptoms--${this.ageCategory}`,
+          },
+        ],
+      },
+      {
+        id: "step--emergency-symptoms--adult",
+        getPrompt: () => `Do ${this.pronouns.personal} have any of these life-threatening symptoms?
+          • Bluish lips or face
+          • Severe and constant pain or pressure in the chest
+          • Extreme difficulty breathing (such as gasping for air, being unable to talk without catching ${this.pronouns.possessive} breath, severe wheezing, nostrils flaring)
+          • New disorientation (acting confused)
+          • Unconscious or very difficult to wake up
+          • Slurred speech or difficulty speaking (new or worsening)
+          • New or worsening seizures
+          • Signs of low blood pressure (too weak to stand, dizziness, lightheaded, feeling cold, pale, clammy skin)
+          • Dehydration (dry lips and mouth, not urinating much, sunken eyes)`,
+        options: [
+          {
+            id: "option--emergency-symptoms--adult-yes",
+            text: "Yes",
+            getNextId: () => "step--emergency-symptoms--yes",
+          },
+          {
+            id: "option--emergency-symptoms--adult-no",
+            text: "No",
+            getNextId: () => "step--feeling-sick",
+          },
+        ],
+      },
+      {
+        id: "step--emergency-symptoms--child",
+        getPrompt: () => `Do ${this.pronouns.personal} have any of these life-threatening symptoms?
+          • Bluish lips or face
+          • Severe and constant pain or pressure in the chest
+          • Extreme difficulty breathing (such as gasping for air, being unable to walk or talk without catching ${this.pronouns.possessive} breath, severe wheezing, nostrils flaring, grunting, or using extra muscles around the chest to help breathe)
+          • Disoriented (acting confused or very irritable)
+          • Unconscious or very difficult to wake up
+          • New or worsening seizures
+          • Signs of low blood pressure (too weak to stand, dizziness, lightheaded, feeling cold, pale, clammy skin)
+          • Dehydration (dry lips and mouth, not urinating much, sunken eyes)
+          • Refusing to drink liquids
+          • Frequent vomiting`,
+        options: [
+          {
+            id: "option--emergency-symptoms--child-yes",
+            text: "Yes",
+            getNextId: () => "step--emergency-symptoms--yes",
+          },
+          {
+            id: "option--emergency-symptoms--child-no",
+            text: "No",
+            getNextId: () => "step--this-id-is-tbd",
+          },
+        ],
+      },
+      {
+        id: "step--emergency-symptoms--yes",
+        promptHeader:
+          "Urgent medical attention may be needed. Please call 911 or go to the Emergency Department.",
+        getPrompt: () => `Based on ${this.pronouns.possessive} symptoms, ${this.pronouns.personal} may need urgent medical care. Please call 911 or go to the nearest emergency department.
+          \nTell the 911 operator or emergency staff if ${this.pronouns.personal} have had contact with someone with COVID-19.`,
+        final: true,
+      },
+      //TODO
+      {
+        id: "step--feeling-sick",
+        getPrompt: () => `Are ${this.pronouns.personal} feeling sick?`,
+        options: [
+          {
+            id: "option--sick--yes",
+            text: "Yes",
+            getNextId: () => "step--this-id-is-tbd",
+          },
+          {
+            id: "option--sick--no",
+            text: "No",
             getNextId: () => "step--this-id-is-tbd",
           },
         ],
