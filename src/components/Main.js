@@ -4,7 +4,7 @@ import "./Main.css";
 import Button from "./Button";
 import Response from "./Response";
 import Prompt from "./Prompt";
-import screener from "./../stepsData";
+import screener from "../screener";
 
 class Main extends React.Component {
   constructor(props) {
@@ -91,20 +91,19 @@ class Main extends React.Component {
             text={option.text}
             next={option.getNextId()}
             onClick={this.handleClick}
-            buttonStyle={"Button-response"}
           />
         ));
       }
 
       const previousSelection = historyEntry.previousSelection;
-      const isLastSelection = index === history.length - 1;
+      const isLatestSelection = index === history.length - 1;
 
       const stepElement = (
-        <div>
+        <div key={index}>
           {!!previousSelection && <Response text={previousSelection} />}
           {!!currentStep.final && <Prompt text={currentStep.promptHeader} />}
           <Prompt text={currentStep.getPrompt()} />
-          {!currentStep.final && isLastSelection && (
+          {!currentStep.final && isLatestSelection && (
             <div>{stepOptionsButtons}</div>
           )}
         </div>

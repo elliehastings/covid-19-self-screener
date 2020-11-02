@@ -2,7 +2,7 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <footer className="Footer">
+    <footer>
       Based on the{" "}
       <a
         href="https://github.com/CDCgov/covid19healthbot"

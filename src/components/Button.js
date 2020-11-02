@@ -3,12 +3,9 @@ import "./Main.css";
 import "./Button.css";
 
 function Button(props) {
-  const buttonClasses = props.buttonStyle
-    ? `Button ${props.buttonStyle}`
-    : "Button";
   return (
     <button
-      className={buttonClasses}
+      className="Button Button-response"
       onClick={() => props.onClick(props.stepId, props.optionId, props.next)}
     >
       {props.text}
