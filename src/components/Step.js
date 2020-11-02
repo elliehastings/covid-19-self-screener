@@ -1,12 +1,13 @@
 import React from "react";
 import "./App.css";
 import "./Step.css";
+import Message from "./Message";
 import Button from "./Button";
-import Response from "./Response";
-import Prompts from "./Prompts";
 
 function Step(props) {
   const currentStep = props.historyEntry.step;
+  const previousSelection = props.historyEntry.previousSelection;
+  const isLatestSelection = props.stepNumber === props.historyLength;
 
   let stepOptionsButtons;
   if (!currentStep.final) {
@@ -22,13 +23,17 @@ function Step(props) {
     ));
   }
 
-  const previousSelection = props.historyEntry.previousSelection;
-  const isLatestSelection = props.stepNumber === props.historyLength;
+  const prompts = currentStep.getPrompts();
+  const promptMessages = prompts.map((prompt, index) => (
+    <Message key={index} text={prompt} messageType={"prompt"} />
+  ));
 
   return (
     <div key={props.stepNumber}>
-      {!!previousSelection && <Response text={previousSelection} />}
-      <Prompts prompts={currentStep.getPrompts()} />
+      {!!previousSelection && (
+        <Message text={previousSelection} messageType={"response"} />
+      )}
+      {promptMessages}
       {!currentStep.final && isLatestSelection && (
         <div>{stepOptionsButtons}</div>
       )}
