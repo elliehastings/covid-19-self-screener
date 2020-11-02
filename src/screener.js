@@ -271,7 +271,6 @@ class Screener {
         ],
         final: true,
       },
-      //TODO
       {
         id: "step--feeling-sick",
         getPrompts: () => [`Are ${this.pronouns.personal} feeling sick?`],
@@ -279,11 +278,60 @@ class Screener {
           {
             id: "option--sick--yes",
             text: "Yes",
-            getNextId: () => "step--this-id-is-tbd",
+            getNextId: () => "step--symptomatic-exposure-y-n",
           },
           {
             id: "option--sick--no",
             text: "No",
+            getNextId: () => "step--asymptomatic-exposure-y-n",
+          },
+        ],
+      },
+      //TODO
+      {
+        id: "step--symptomatic-exposure-y-n",
+        getPrompts: () => [
+          `In the two weeks before ${this.pronouns.personal} felt sick, did ${this.pronouns.personal} care for or have close contact (within 6 feet of an infected person for at least 15 minutes) with someone with symptoms of COVID-19, tested for COVID-19, or diagnosed with COVID-19?`,
+        ],
+        options: [
+          {
+            id: "option--symptomatic-exposure-y-n--yes",
+            text: "Yes",
+            getNextId: () => "step--exposure--symptoms",
+          },
+
+          {
+            id: "option--symptomatic-exposure-y-n--no",
+            text: "No",
+            getNextId: () => "step--this-id-is-tbd",
+          },
+          {
+            id: "option--symptomatic-exposure-y-n--dont-know",
+            text: "I don't know",
+            getNextId: () => "step--exposure--symptoms",
+          },
+        ],
+      },
+      // TODO
+      {
+        id: "step--asymptomatic-exposure-y-n",
+        getPrompts: () => [
+          `In the last two weeks, did ${this.pronouns.personal} care for or have close contact (within 6 feet of an infected person for at least 15 minutes) with someone with symptoms of COVID-19, tested for COVID-19, or diagnosed with COVID-19?`,
+        ],
+        options: [
+          {
+            id: "option--asymptomatic-exposure-y-n--yes",
+            text: "Yes",
+            getNextId: () => "step--this-id-is-tbd",
+          },
+          {
+            id: "option--asymptomatic-exposure-y-n--no",
+            text: "No",
+            getNextId: () => "step--this-id-is-tbd",
+          },
+          {
+            id: "option--symptomatic-exposure-y-n--dont-know",
+            text: "I don't know",
             getNextId: () => "step--this-id-is-tbd",
           },
         ],
