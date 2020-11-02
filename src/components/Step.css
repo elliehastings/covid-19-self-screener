@@ -1,4 +1,4 @@
-.Main-paragraph {
+.Step-paragraph {
   max-width: 255px;
   word-wrap: break-word;
   margin-bottom: 12px;
@@ -8,14 +8,14 @@
   border-radius:25px;
 }
 
-.Main-paragraph::before {
+.Step-paragraph::before {
   content:"";
   position:absolute;
   bottom:-2px;
   height:20px;
 }
 
-.Main-paragraph::after {
+.Step-paragraph::after {
   content:"";
   position:absolute;
   bottom:-2px;

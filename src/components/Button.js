@@ -1,5 +1,3 @@
-import "./App.css";
-import "./Main.css";
 import "./Button.css";
 
 function Button(props) {

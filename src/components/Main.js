@@ -1,9 +1,5 @@
 import React from "react";
-import "./App.css";
-import "./Main.css";
-import Button from "./Button";
-import Response from "./Response";
-import Prompts from "./Prompts";
+import Step from "./Step";
 import screener from "../screener";
 
 class Main extends React.Component {
@@ -78,42 +74,23 @@ class Main extends React.Component {
   render() {
     const history = this.state.history;
 
-    const stepElements = history.map(function (historyEntry, index, history) {
-      const currentStep = historyEntry.step;
+    const steps = history.map(function (historyEntry, index, history) {
+      const historyLength = history.length - 1;
 
-      let stepOptionsButtons;
-      if (!currentStep.final) {
-        stepOptionsButtons = currentStep.options.map((option) => (
-          <Button
-            key={option.id}
-            optionId={option.id}
-            stepId={currentStep.id}
-            text={option.text}
-            next={option.getNextId()}
-            onClick={this.handleClick}
-          />
-        ));
-      }
-
-      const previousSelection = historyEntry.previousSelection;
-      const isLatestSelection = index === history.length - 1;
-
-      const stepElement = (
-        <div key={index}>
-          {!!previousSelection && <Response text={previousSelection} />}
-          <Prompts prompts={currentStep.getPrompts()} />
-          {!currentStep.final && isLatestSelection && (
-            <div>{stepOptionsButtons}</div>
-          )}
-        </div>
+      return (
+        <Step
+          key={index}
+          historyEntry={historyEntry}
+          stepNumber={index}
+          historyLength={historyLength}
+          handleClick={this.handleClick}
+        />
       );
-
-      return stepElement;
     }, this);
 
     return (
-      <main className="Main">
-        <div className="Main-content">{stepElements}</div>
+      <main>
+        <div>{steps}</div>
       </main>
     );
   }
