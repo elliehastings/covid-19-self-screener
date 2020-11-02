@@ -6,8 +6,9 @@ class Screener {
     this.stepsData = [
       {
         id: "step--disclaimer",
-        getPrompt: () =>
+        getPrompts: () => [
           "The purpose of the Coronavirus Self-Checker is to help you make decisions about seeking appropriate medical care. This system is not intended for the diagnosis or treatment of disease, including COVID-19.",
+        ],
         options: [
           {
             id: "option--disclaimer--agree",
@@ -23,8 +24,9 @@ class Screener {
       },
       {
         id: "step--intro-messaging",
-        getPrompt: () =>
+        getPrompts: () => [
           "I’m going to ask you some questions. I will use your answers to give you advice about the level of medical care you should seek. \nBut first, if you are experiencing a life-threatening emergency, please call 911 immediately. \nIf you are not experiencing a life-threatening emergency, let’s get started.\nDuring the assessment, you can refresh the page if you need to start again.",
+        ],
         options: [
           {
             id: "option--intro-messaging--continue",
@@ -35,14 +37,17 @@ class Screener {
       },
       {
         id: "step--disclaimer--disagree",
-        promptHeader: "Consent required.",
-        getPrompt: () => "Please consent to use the Coronavirus Self-Checker.",
+        getPrompts: () => [
+          "Consent required.",
+          "Please consent to use the Coronavirus Self-Checker.",
+        ],
         final: true,
       },
       {
         id: "step--international-testing",
-        getPrompt: () =>
+        getPrompts: () => [
           "Are you in the United States or a U.S. territory right now?",
+        ],
         options: [
           {
             id: "option--international-testing--yes",
@@ -59,14 +64,15 @@ class Screener {
       // The CDC workflow does support an international workflow but we're focused on the US for now
       {
         id: "step--international-testing--not-usa",
-        promptHeader: "International cases not supported.",
-        getPrompt: () =>
+        getPrompts: () => [
+          "International cases not supported.",
           "I'm sorry, this self-screener only supports the United States at this time.",
+        ],
         final: true,
       },
       {
         id: "step--answering-for-self-or-other",
-        getPrompt: () => "Are you answering for yourself or someone else?",
+        getPrompts: () => ["Are you answering for yourself or someone else?"],
         options: [
           {
             id: "option--answering-for-self-or-other--self",
@@ -83,7 +89,7 @@ class Screener {
       // Age Question
       {
         id: "step--age",
-        getPrompt: () => `What is ${this.pronouns.possessive} age?`,
+        getPrompts: () => [`What is ${this.pronouns.possessive} age?`],
         // TODO - make these options real
         options: [
           {
@@ -139,23 +145,26 @@ class Screener {
       // Age Results
       {
         id: "step--age--<2",
-        promptHeader: "Contact a medical provider.",
-        getPrompt: () =>
+        getPrompts: () => [
+          "Contact a medical provider.",
           "This tool is intended for people 2 years or older. Please call the child’s medical provider, clinician advice line, or telemedicine provider.",
+        ],
         final: true,
       },
       {
         id: "step--age--2-9--self",
-        promptHeader:
-          "Please ask your parent or guardian to help you complete these questions.",
-        getPrompt: () =>
+        getPrompts: () => [
+          "Ask your parent or guardian to help you complete these questions.",
           "Please restart the self-checker when you have help from your parent or guardian.",
+        ],
         final: true,
       },
       {
         id: "step--age--10-12--self",
-        getPrompt: () =>
+        getPrompts: () => [
+          "Ask your parent or guardian to help you complete these questions.",
           "Please continue the self-checker when you have help from your parent or guardian.",
+        ],
         options: [
           {
             id: "option--gender",
@@ -166,8 +175,9 @@ class Screener {
       },
       {
         id: "step--age--13-17--self",
-        getPrompt: () =>
+        getPrompts: () => [
           "Ask a parent or guardian to assist you, or if taking by yourself, share these results with your parent/guardian.",
+        ],
         options: [
           {
             id: "option--gender",
@@ -178,7 +188,7 @@ class Screener {
       },
       {
         id: "step--gender",
-        getPrompt: () => `What is ${this.pronouns.possessive} gender?`,
+        getPrompts: () => [`What is ${this.pronouns.possessive} gender?`],
         options: [
           {
             id: "option--gender--female",
@@ -199,7 +209,8 @@ class Screener {
       },
       {
         id: "step--emergency-symptoms--adult",
-        getPrompt: () => `Do ${this.pronouns.personal} have any of these life-threatening symptoms?
+        getPrompts: () => [
+          `Do ${this.pronouns.personal} have any of these life-threatening symptoms?
           • Bluish lips or face
           • Severe and constant pain or pressure in the chest
           • Extreme difficulty breathing (such as gasping for air, being unable to talk without catching ${this.pronouns.possessive} breath, severe wheezing, nostrils flaring)
@@ -209,6 +220,7 @@ class Screener {
           • New or worsening seizures
           • Signs of low blood pressure (too weak to stand, dizziness, lightheaded, feeling cold, pale, clammy skin)
           • Dehydration (dry lips and mouth, not urinating much, sunken eyes)`,
+        ],
         options: [
           {
             id: "option--emergency-symptoms--adult-yes",
@@ -224,7 +236,8 @@ class Screener {
       },
       {
         id: "step--emergency-symptoms--child",
-        getPrompt: () => `Do ${this.pronouns.personal} have any of these life-threatening symptoms?
+        getPrompts: () => [
+          `Do ${this.pronouns.personal} have any of these life-threatening symptoms?
           • Bluish lips or face
           • Severe and constant pain or pressure in the chest
           • Extreme difficulty breathing (such as gasping for air, being unable to walk or talk without catching ${this.pronouns.possessive} breath, severe wheezing, nostrils flaring, grunting, or using extra muscles around the chest to help breathe)
@@ -235,6 +248,7 @@ class Screener {
           • Dehydration (dry lips and mouth, not urinating much, sunken eyes)
           • Refusing to drink liquids
           • Frequent vomiting`,
+        ],
         options: [
           {
             id: "option--emergency-symptoms--child-yes",
@@ -250,16 +264,17 @@ class Screener {
       },
       {
         id: "step--emergency-symptoms--yes",
-        promptHeader:
+        getPrompts: () => [
           "Urgent medical attention may be needed. Please call 911 or go to the Emergency Department.",
-        getPrompt: () => `Based on ${this.pronouns.possessive} symptoms, ${this.pronouns.personal} may need urgent medical care. Please call 911 or go to the nearest emergency department.
+          `Based on ${this.pronouns.possessive} symptoms, ${this.pronouns.personal} may need urgent medical care. Please call 911 or go to the nearest emergency department.
           \nTell the 911 operator or emergency staff if ${this.pronouns.personal} have had contact with someone with COVID-19.`,
+        ],
         final: true,
       },
       //TODO
       {
         id: "step--feeling-sick",
-        getPrompt: () => `Are ${this.pronouns.personal} feeling sick?`,
+        getPrompts: () => [`Are ${this.pronouns.personal} feeling sick?`],
         options: [
           {
             id: "option--sick--yes",

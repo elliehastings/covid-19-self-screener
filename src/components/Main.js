@@ -3,7 +3,7 @@ import "./App.css";
 import "./Main.css";
 import Button from "./Button";
 import Response from "./Response";
-import Prompt from "./Prompt";
+import Prompts from "./Prompts";
 import screener from "../screener";
 
 class Main extends React.Component {
@@ -101,8 +101,7 @@ class Main extends React.Component {
       const stepElement = (
         <div key={index}>
           {!!previousSelection && <Response text={previousSelection} />}
-          {!!currentStep.final && <Prompt text={currentStep.promptHeader} />}
-          <Prompt text={currentStep.getPrompt()} />
+          <Prompts prompts={currentStep.getPrompts()} />
           {!currentStep.final && isLatestSelection && (
             <div>{stepOptionsButtons}</div>
           )}
