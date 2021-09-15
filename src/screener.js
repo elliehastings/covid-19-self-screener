@@ -1,3 +1,7 @@
+// Note: The point of Hackfest is to learn something new and demo something cool -
+// in this case, the focus was on the React UI, so this is a bit of a Wizard-of-Oz
+// app, and this class is the sad thing behind the screen :)
+
 class Screener {
   constructor() {
     this.testTaker = undefined;

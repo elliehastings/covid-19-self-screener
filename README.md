@@ -1,8 +1,8 @@
 # COVID-19 Screener
 
-Implements the [screening protocol provided by the CDC](https://github.com/CDCgov/covid19healthbot/blob/master/screening_protocols/covid_19_screening_protocol_cdc_apple.pdf).
+Implements the initial steps of the [screening protocol provided by the CDC](https://github.com/CDCgov/covid19healthbot/blob/master/screening_protocols/covid_19_screening_protocol_cdc_apple.pdf).
 
-This project was created during the 2020 (virtual) Hackfest at [Iora Health](https://www.iorahealth.com/)! As such it has no test coverage but a lot of 💛.
+This project was created during the 2020 (virtual) Hackfest at [Iora Health](https://www.iorahealth.com/). As such it is unfinished, uses one mega-class for data management, and has no test coverage but a lot of 💛.
 
 ## Versions
 
